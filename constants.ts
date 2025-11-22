@@ -125,3 +125,97 @@ export const INITIAL_RESUME_DATA: ResumeData = {
     { id: '4', language: 'Spanish', level: 'Elementary', flag: 'ES' },
   ]
 };
+
+export const LANGUAGE_LEVELS = [
+  "Native",
+  "Fluent",
+  "Proficient",
+  "Advanced",
+  "Intermediate",
+  "Conversational",
+  "Elementary",
+  "Beginner"
+];
+
+export const LANGUAGES_LIST = [
+  { name: "English", code: "GB" },
+  { name: "Spanish", code: "ES" },
+  { name: "French", code: "FR" },
+  { name: "German", code: "DE" },
+  { name: "Italian", code: "IT" },
+  { name: "Portuguese", code: "PT" },
+  { name: "Chinese", code: "CN" },
+  { name: "Japanese", code: "JP" },
+  { name: "Korean", code: "KR" },
+  { name: "Russian", code: "RU" },
+  { name: "Arabic", code: "SA" },
+  { name: "Hindi", code: "IN" },
+  { name: "Bengali", code: "BD" },
+  { name: "Urdu", code: "PK" },
+  { name: "Indonesian", code: "ID" },
+  { name: "Turkish", code: "TR" },
+  { name: "Vietnamese", code: "VN" },
+  { name: "Thai", code: "TH" },
+  { name: "Greek", code: "GR" },
+  { name: "Dutch", code: "NL" },
+  { name: "Polish", code: "PL" },
+  { name: "Swedish", code: "SE" },
+  { name: "Norwegian", code: "NO" },
+  { name: "Danish", code: "DK" },
+  { name: "Finnish", code: "FI" },
+  { name: "Czech", code: "CZ" },
+  { name: "Hungarian", code: "HU" },
+  { name: "Romanian", code: "RO" },
+  { name: "Ukrainian", code: "UA" }
+];
+
+export const SKILL_CATEGORIES = [
+  {
+    name: "Design",
+    color: "text-purple-400",
+    borderColor: "border-purple-500/50",
+    shadowColor: "rgba(168,85,247,0.15)",
+    icon: "palette",
+    suggestedSkills: ["Web Design", "Mobile Design", "User Experience", "User Interface", "Wireframing", "Prototyping", "Interaction Design", "Design System", "Figma", "Adobe XD", "Sketch", "Photoshop", "Illustrator", "After Effects", "Blender", "3D Modeling", "Typography", "Color Theory", "Branding", "Logo Design"]
+  },
+  {
+    name: "Development",
+    color: "text-blue-400",
+    borderColor: "border-blue-500/50",
+    shadowColor: "rgba(59,130,246,0.15)",
+    icon: "code",
+    suggestedSkills: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Vue", "Angular", "Svelte", "Next.js", "Nuxt", "Node.js", "Express", "NestJS", "Python", "Django", "Flask", "Ruby", "Rails", "Java", "Spring", "C#", ".NET", "Go", "Rust", "PHP", "Laravel", "SQL", "PostgreSQL", "MongoDB", "Redis", "GraphQL", "REST API", "Git", "Docker", "Kubernetes", "AWS", "Azure", "GCP", "CI/CD", "Testing", "Jest", "Cypress"]
+  },
+  {
+    name: "Marketing",
+    color: "text-pink-400",
+    borderColor: "border-pink-500/50",
+    shadowColor: "rgba(236,72,153,0.15)",
+    icon: "instagram",
+    suggestedSkills: ["SEO", "SEM", "Content Marketing", "Social Media Marketing", "Email Marketing", "Google Analytics", "Google Ads", "Facebook Ads", "Copywriting", "Brand Strategy", "Market Research", "Public Relations", "Affiliate Marketing", "Influencer Marketing", "Growth Hacking", "CRM", "HubSpot", "Salesforce", "Mailchimp"]
+  },
+  {
+    name: "Business",
+    color: "text-emerald-400",
+    borderColor: "border-emerald-500/50",
+    shadowColor: "rgba(52,211,153,0.15)",
+    icon: "briefcase",
+    suggestedSkills: ["Project Management", "Product Management", "Agile", "Scrum", "Kanban", "Business Analysis", "Strategic Planning", "Financial Analysis", "Budgeting", "Risk Management", "Leadership", "Team Building", "Communication", "Negotiation", "Public Speaking", "Presentation", "Microsoft Office", "Excel", "PowerPoint", "Jira", "Asana", "Trello"]
+  },
+  {
+    name: "Data Science",
+    color: "text-yellow-400",
+    borderColor: "border-yellow-500/50",
+    shadowColor: "rgba(250,204,21,0.15)",
+    icon: "globe",
+    suggestedSkills: ["Data Analysis", "Data Visualization", "Machine Learning", "Deep Learning", "Artificial Intelligence", "NLP", "Computer Vision", "Statistics", "Probability", "Linear Algebra", "Calculus", "Python", "R", "SQL", "Pandas", "NumPy", "Scikit-learn", "TensorFlow", "PyTorch", "Keras", "Matplotlib", "Seaborn", "Tableau", "Power BI", "Big Data", "Hadoop", "Spark"]
+  },
+  {
+    name: "DevOps",
+    color: "text-orange-400",
+    borderColor: "border-orange-500/50",
+    shadowColor: "rgba(251,146,60,0.15)",
+    icon: "github",
+    suggestedSkills: ["Linux", "Bash", "Shell Scripting", "Networking", "Security", "Cloud Computing", "Infrastructure as Code", "Terraform", "Ansible", "Chef", "Puppet", "Monitoring", "Logging", "Prometheus", "Grafana", "ELK Stack", "Nginx", "Apache", "Load Balancing", "Microservices", "Serverless"]
+  }
+];
