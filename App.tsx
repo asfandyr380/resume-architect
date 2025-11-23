@@ -1,18 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Editor from './components/Editor';
-import ResumePreview from './components/ResumePreview';
-import { INITIAL_RESUME_DATA } from './constants';
-import { ResumeData } from './types';
-import { IconDownload, IconEdit } from './components/Icons';
+import ModernSidebar from './components/templates/ModernSidebar';
+import ClassicVertical from './components/templates/ClassicVertical';
+import { ResumeData, TemplateId, Theme } from './types';
+import { INITIAL_RESUME_DATA as INITIAL_DATA } from './constants';
+import { IconDownload, IconSun, IconMoon } from './components/Icons';
 import { toPng } from 'html-to-image';
 import jsPDF from 'jspdf';
 
 const App: React.FC = () => {
-  const [resumeData, setResumeData] = useState<ResumeData>(INITIAL_RESUME_DATA);
-  const [scale, setScale] = useState(0.8);
-  const [isEditorOpen, setIsEditorOpen] = useState(true);
+  const [resumeData, setResumeData] = useState<ResumeData>(INITIAL_DATA);
+  const [scale, setScale] = useState(1);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
 
   const [downloadingType, setDownloadingType] = useState<'pdf' | 'png' | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>('modern-sidebar');
+  const [theme, setTheme] = useState<Theme>('dark');
 
   const printRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +36,7 @@ const App: React.FC = () => {
         document.head.appendChild(style);
 
         // Remove the external link tag to prevent html-to-image from trying to read it
-        const linkTag = document.querySelector(`link[href="${fontUrl}"]`);
+        const linkTag = document.querySelector(`link[href = "${fontUrl}"]`);
         if (linkTag) {
           linkTag.remove();
         }
@@ -126,16 +129,28 @@ const App: React.FC = () => {
       <div className="md:hidden p-4 bg-dark-800 border-b border-white/5 flex justify-between items-center z-50 no-print">
         <h1 className="font-bold text-white">Resume Architect</h1>
         <button onClick={() => setIsEditorOpen(!isEditorOpen)} className="p-2 bg-dark-700 rounded text-white">
-          <IconEdit className="w-5 h-5" />
+          {/* IconEdit was removed, using a placeholder or re-adding it if needed */}
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zm-3.646 3.646l-2.828 2.828-1.414-1.414L8.586 6.757l-1.414-1.414L5.757 8.586 4.343 7.172l1.414-1.414-2.828-2.828L7.172 4.343l1.414 1.414 2.828-2.828 1.414 1.414-2.828 2.828z" />
+          </svg>
         </button>
       </div>
 
+      {/* Theme Toggle */}
+      <button
+        onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
+        className="fixed top-4 right-4 z-50 p-3 bg-dark-800 rounded-full text-white shadow-lg hover:bg-dark-700 transition-all border border-white/10 no-print"
+        title="Toggle Theme"
+      >
+        {theme === 'dark' ? <IconSun className="w-5 h-5" /> : <IconMoon className="w-5 h-5" />}
+      </button>
+
       {/* Left Editor Panel */}
       <div className={`
-        fixed md:relative z-40 inset-y-0 left-0 w-full md:w-[400px] lg:w-[450px] bg-dark-800 transform transition-transform duration-300 ease-in-out
+        fixed md:relative z - 40 inset - y - 0 left - 0 w - full md: w - [400px] lg: w - [450px] bg - dark - 800 transform transition - transform duration - 300 ease -in -out
         ${isEditorOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-        md:flex flex-col border-r border-white/5 shadow-2xl no-print
-      `}>
+md:flex flex - col border - r border - white / 5 shadow - 2xl no - print
+  `}>
         <div className="p-6 border-b border-white/5 flex justify-between items-center bg-dark-900/50 backdrop-blur-md">
           <div>
             <h1 className="text-xl font-bold text-white tracking-tight">Resume Architect</h1>
@@ -149,7 +164,12 @@ const App: React.FC = () => {
           </button>
         </div>
 
-        <Editor data={resumeData} onChange={setResumeData} />
+        <Editor
+          data={resumeData}
+          onChange={setResumeData}
+          selectedTemplate={selectedTemplate}
+          onSelectTemplate={setSelectedTemplate}
+        />
 
         {/* Editor Footer */}
         <div className="p-4 border-t border-white/5 bg-dark-900/50 backdrop-blur-md space-y-3">
@@ -201,8 +221,18 @@ const App: React.FC = () => {
 
         {/* Scrollable Canvas */}
         <div className="flex-1 overflow-auto flex justify-center p-8 md:p-16 custom-scrollbar">
-          <div className="print-container">
-            <ResumePreview data={resumeData} scale={scale} />
+          <div className="h-full overflow-auto flex justify-center p-8 custom-scrollbar">
+            <div className="origin-top transition-transform duration-300 ease-in-out">
+              {selectedTemplate === 'modern-sidebar' && <ModernSidebar data={resumeData} scale={scale} theme={theme} />}
+              {selectedTemplate === 'classic' && <ClassicVertical data={resumeData} scale={scale} theme={theme} />}
+              {/* Fallback for other templates not yet implemented */}
+              {(selectedTemplate !== 'modern-sidebar' && selectedTemplate !== 'classic') && (
+                <div className="text-white text-center mt-20">
+                  <p className="text-xl font-bold mb-2">Coming Soon</p>
+                  <p className="text-text-muted">This template is under construction.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

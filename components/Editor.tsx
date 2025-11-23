@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { ResumeData, ExperienceItem } from '../types';
+import { ResumeData, ExperienceItem, TemplateId } from '../types';
 import { IconSparkles, IconPlus, IconTrash, IconInstagram, IconTwitter, IconDribbble, IconLinkedin, IconGithub, IconGlobe, IconFacebook } from './Icons';
 import { enhanceText, generateBulletPoint } from '../services/gemini';
 import { LANGUAGES_LIST, LANGUAGE_LEVELS, SKILL_CATEGORIES } from '../constants';
+import TemplateSelector from './TemplateSelector';
 
 interface EditorProps {
   data: ResumeData;
   onChange: (newData: ResumeData) => void;
+  selectedTemplate: TemplateId;
+  onSelectTemplate: (id: TemplateId) => void;
 }
 
 const SOCIAL_PLATFORMS = [
@@ -19,8 +22,8 @@ const SOCIAL_PLATFORMS = [
   { id: 'Website', icon: IconGlobe },
 ];
 
-const Editor: React.FC<EditorProps> = ({ data, onChange }) => {
-  const [activeTab, setActiveTab] = useState<string>('personal');
+const Editor: React.FC<EditorProps> = ({ data, onChange, selectedTemplate, onSelectTemplate }) => {
+  const [activeTab, setActiveTab] = useState<string>('templates');
   const [loadingAI, setLoadingAI] = useState<string | null>(null);
 
   const updatePersonal = (field: string, value: string) => {
@@ -225,6 +228,7 @@ const Editor: React.FC<EditorProps> = ({ data, onChange }) => {
   }
 
   const tabs = [
+    { id: 'templates', label: 'Templates' },
     { id: 'personal', label: 'Personal' },
     { id: 'experience', label: 'Experience' },
     { id: 'skills', label: 'Skills' },
@@ -298,6 +302,13 @@ const Editor: React.FC<EditorProps> = ({ data, onChange }) => {
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+
+        {activeTab === 'templates' && (
+          <div className="animate-fadeIn">
+            <h3 className="text-white font-medium mb-4">Choose Template</h3>
+            <TemplateSelector selectedTemplate={selectedTemplate} onSelectTemplate={onSelectTemplate} />
+          </div>
+        )}
 
         {activeTab === 'personal' && (
           <div className="space-y-4 animate-fadeIn">

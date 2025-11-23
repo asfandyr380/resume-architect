@@ -67,3 +67,13 @@ export interface ResumeData {
   projects: ProjectItem[];
   languages: LanguageItem[];
 }
+
+export type Theme = 'light' | 'dark';
+
+export type TemplateId = 'modern-sidebar' | 'classic' | 'minimal' | 'executive' | 'creative' | 'tech' | 'compact';
+
+export interface TemplateProps {
+  data: ResumeData;
+  scale?: number;
+  theme: Theme;
+}
