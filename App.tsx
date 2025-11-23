@@ -7,6 +7,7 @@ import { INITIAL_RESUME_DATA as INITIAL_DATA } from './constants';
 import { IconDownload, IconSun, IconMoon } from './components/Icons';
 import { toPng } from 'html-to-image';
 import jsPDF from 'jspdf';
+import { trackPageView, trackTemplateSelection, trackThemeToggle, trackDownload } from './services/analytics';
 
 const App: React.FC = () => {
   const [resumeData, setResumeData] = useState<ResumeData>(INITIAL_DATA);
@@ -48,6 +49,11 @@ const App: React.FC = () => {
     loadFonts();
   }, []);
 
+  // Track page view on mount
+  useEffect(() => {
+    trackPageView('resume_builder');
+  }, []);
+
   const handleDownloadPDF = async () => {
     if (downloadingType) return;
     setDownloadingType('pdf');
@@ -61,6 +67,8 @@ const App: React.FC = () => {
     const originalTransform = element.style.transform;
     // Reset transform for capture to get full size/resolution
     element.style.transform = 'none';
+
+    trackDownload('pdf', 'started');
 
     try {
       // Use html-to-image instead of html2canvas
@@ -83,8 +91,10 @@ const App: React.FC = () => {
 
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save('resume.pdf');
+      trackDownload('pdf', 'completed');
     } catch (error) {
       console.error('PDF generation failed', error);
+      trackDownload('pdf', 'failed', error instanceof Error ? error.message : 'Unknown error');
     } finally {
       // Restore transform
       element.style.transform = originalTransform;
@@ -104,6 +114,8 @@ const App: React.FC = () => {
     const originalTransform = element.style.transform;
     element.style.transform = 'none';
 
+    trackDownload('png', 'started');
+
     try {
       const dataUrl = await toPng(element, {
         backgroundColor: theme === 'light' ? '#ffffff' : '#13131f',
@@ -114,12 +126,26 @@ const App: React.FC = () => {
       link.download = 'resume.png';
       link.href = dataUrl;
       link.click();
+      trackDownload('png', 'completed');
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      trackDownload('png', 'failed', error instanceof Error ? error.message : 'Unknown error');
     } finally {
       element.style.transform = originalTransform;
       setDownloadingType(null);
     }
+  };
+
+  // Wrapper functions with analytics tracking
+  const handleTemplateChange = (templateId: TemplateId) => {
+    setSelectedTemplate(templateId);
+    trackTemplateSelection(templateId);
+  };
+
+  const handleThemeToggle = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    trackThemeToggle(newTheme);
   };
 
   return (
@@ -162,7 +188,7 @@ const App: React.FC = () => {
           data={resumeData}
           onChange={setResumeData}
           selectedTemplate={selectedTemplate}
-          onSelectTemplate={setSelectedTemplate}
+          onSelectTemplate={handleTemplateChange}
         />
 
         {/* Editor Footer */}
@@ -209,7 +235,7 @@ const App: React.FC = () => {
         {/* Toolbar */}
         <div className="absolute top-6 right-6 z-30 flex items-center space-x-2 bg-dark-800/80 backdrop-blur p-2 rounded-full border border-white/5 shadow-xl no-print">
           <button
-            onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
+            onClick={handleThemeToggle}
             className="w-8 h-8 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors"
             title="Toggle Theme"
           >

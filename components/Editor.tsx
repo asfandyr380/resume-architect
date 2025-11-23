@@ -4,6 +4,7 @@ import { IconSparkles, IconPlus, IconTrash, IconInstagram, IconTwitter, IconDrib
 import { enhanceText, generateBulletPoint } from '../services/gemini';
 import { LANGUAGES_LIST, LANGUAGE_LEVELS, SKILL_CATEGORIES } from '../constants';
 import TemplateSelector from './TemplateSelector';
+import { trackEditorTabChange, trackAIUsage } from '../services/analytics';
 
 interface EditorProps {
   data: ResumeData;
@@ -217,6 +218,7 @@ const Editor: React.FC<EditorProps> = ({ data, onChange, selectedTemplate, onSel
     setLoadingAI(field);
     const enhanced = await enhanceText(text, context);
     if (field === 'quote') updatePersonal('quote', enhanced);
+    trackAIUsage('enhance', context);
     setLoadingAI(null);
   };
 
@@ -224,8 +226,15 @@ const Editor: React.FC<EditorProps> = ({ data, onChange, selectedTemplate, onSel
     setLoadingAI(`exp-${id}`);
     const bullet = await generateBulletPoint(role, company);
     updateExperience(id, 'description', bullet);
+    trackAIUsage('bullet', `${role} at ${company}`);
     setLoadingAI(null);
   }
+
+  // Wrapper function for tab changes with analytics
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+    trackEditorTabChange(tabId);
+  };
 
   const tabs = [
     { id: 'templates', label: 'Templates' },
@@ -289,7 +298,7 @@ const Editor: React.FC<EditorProps> = ({ data, onChange, selectedTemplate, onSel
         {tabs.map(tab => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => handleTabChange(tab.id)}
             className={`px-4 py-4 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${activeTab === tab.id
               ? 'text-accent-purple border-accent-purple'
               : 'text-text-muted border-transparent hover:text-white'
