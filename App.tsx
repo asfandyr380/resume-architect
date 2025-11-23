@@ -147,10 +147,10 @@ const App: React.FC = () => {
 
       {/* Left Editor Panel */}
       <div className={`
-        fixed md:relative z - 40 inset - y - 0 left - 0 w - full md: w - [400px] lg: w - [450px] bg - dark - 800 transform transition - transform duration - 300 ease -in -out
+        fixed md:relative z-40 inset-y-0 left-0 w-full md:w-[400px] lg:w-[450px] bg-dark-800 transform transition-transform duration-300 ease-in-out
         ${isEditorOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-md:flex flex - col border - r border - white / 5 shadow - 2xl no - print
-  `}>
+        md:flex flex-col border-r border-white/5 shadow-2xl no-print
+      `}>
         <div className="p-6 border-b border-white/5 flex justify-between items-center bg-dark-900/50 backdrop-blur-md">
           <div>
             <h1 className="text-xl font-bold text-white tracking-tight">Resume Architect</h1>
@@ -220,19 +220,17 @@ md:flex flex - col border - r border - white / 5 shadow - 2xl no - print
         </div>
 
         {/* Scrollable Canvas */}
-        <div className="flex-1 overflow-auto flex justify-center p-8 md:p-16 custom-scrollbar">
-          <div className="h-full overflow-auto flex justify-center p-8 custom-scrollbar">
-            <div className="origin-top transition-transform duration-300 ease-in-out">
-              {selectedTemplate === 'modern-sidebar' && <ModernSidebar data={resumeData} scale={scale} theme={theme} />}
-              {selectedTemplate === 'classic' && <ClassicVertical data={resumeData} scale={scale} theme={theme} />}
-              {/* Fallback for other templates not yet implemented */}
-              {(selectedTemplate !== 'modern-sidebar' && selectedTemplate !== 'classic') && (
-                <div className="text-white text-center mt-20">
-                  <p className="text-xl font-bold mb-2">Coming Soon</p>
-                  <p className="text-text-muted">This template is under construction.</p>
-                </div>
-              )}
-            </div>
+        <div className="flex-1 overflow-auto flex justify-center p-8 md:p-16 custom-scrollbar relative">
+          <div className="origin-top transition-transform duration-300 ease-in-out">
+            {selectedTemplate === 'modern-sidebar' && <ModernSidebar data={resumeData} scale={scale} theme={theme} />}
+            {selectedTemplate === 'classic' && <ClassicVertical data={resumeData} scale={scale} theme={theme} />}
+            {/* Fallback for other templates not yet implemented */}
+            {(selectedTemplate !== 'modern-sidebar' && selectedTemplate !== 'classic') && (
+              <div className="text-white text-center mt-20">
+                <p className="text-xl font-bold mb-2">Coming Soon</p>
+                <p className="text-text-muted">This template is under construction.</p>
+              </div>
+            )}
           </div>
         </div>
 
