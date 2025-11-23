@@ -1,4 +1,4 @@
-import { analytics, logEvent } from './firebase';
+import { analytics, logEvent } from '../firebase';
 
 // Analytics event names
 export const ANALYTICS_EVENTS = {
