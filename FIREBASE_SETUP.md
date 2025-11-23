@@ -26,33 +26,28 @@ This document provides complete instructions for setting up Firebase Analytics i
 
 ## Step 3: Configure Your Project
 
-1. Open the file `firebase.ts` in your project root
-2. Replace the placeholder configuration with your actual Firebase config:
-
-```typescript
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",           // Replace with your actual API key
-  authDomain: "YOUR_AUTH_DOMAIN",   // Replace with your auth domain
-  projectId: "YOUR_PROJECT_ID",     // Replace with your project ID
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "YOUR_MEASUREMENT_ID"
-};
+1. Create a `.env` file in your project root (copy from `.env.example`):
+```bash
+cp .env.example .env
 ```
 
-**Example of what it should look like:**
-```typescript
-const firebaseConfig = {
-  apiKey: "AIzaSyB1234567890abcdefghijklmnopqrst",
-  authDomain: "resume-architect-12345.firebaseapp.com",
-  projectId: "resume-architect-12345",
-  storageBucket: "resume-architect-12345.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef1234567890",
-  measurementId: "G-ABCDEFGH12"
-};
+2. Open the `.env` file and add your Firebase credentials:
+
+```env
+VITE_FIREBASE_API_KEY=AIzaSyB1234567890abcdefghijklmnopqrst
+VITE_FIREBASE_AUTH_DOMAIN=resume-architect-12345.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=resume-architect-12345
+VITE_FIREBASE_STORAGE_BUCKET=resume-architect-12345.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=123456789012
+VITE_FIREBASE_APP_ID=1:123456789012:web:abcdef1234567890
+VITE_FIREBASE_MEASUREMENT_ID=G-ABCDEFGH12
 ```
+
+**Important:**
+- Replace the example values with your actual Firebase credentials
+- Never commit the `.env` file to version control (it's already in `.gitignore`)
+- The `.env` file is automatically loaded by Vite
+- Restart your development server after changing `.env` values
 
 ## Step 4: Enable Analytics in Firebase Console
 

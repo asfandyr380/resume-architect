@@ -34,21 +34,27 @@
 3. Add a web app to your project
 4. Copy the Firebase configuration object
 
-### 2. Update firebase.ts
+### 2. Create .env File
 
-Replace the placeholder values in `firebase.ts`:
+Create a `.env` file in your project root:
 
-```typescript
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",              // ← Replace this
-  authDomain: "YOUR_AUTH_DOMAIN",      // ← Replace this
-  projectId: "YOUR_PROJECT_ID",        // ← Replace this
-  storageBucket: "YOUR_STORAGE_BUCKET", // ← Replace this
-  messagingSenderId: "YOUR_SENDER_ID",  // ← Replace this
-  appId: "YOUR_APP_ID",                // ← Replace this
-  measurementId: "YOUR_MEASUREMENT_ID"  // ← Replace this
-};
+```bash
+cp .env.example .env
 ```
+
+Then edit `.env` and add your Firebase credentials:
+
+```env
+VITE_FIREBASE_API_KEY=your_actual_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
+VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
+VITE_FIREBASE_MEASUREMENT_ID=G-XXXXXXXXXX
+```
+
+**Important:** Restart your dev server after editing `.env`!
 
 ### 3. Test It
 
