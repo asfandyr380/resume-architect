@@ -137,13 +137,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Theme Toggle */}
-      <button
-        onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
-        className="fixed top-4 right-4 z-50 p-3 bg-dark-800 rounded-full text-white shadow-lg hover:bg-dark-700 transition-all border border-white/10 no-print"
-        title="Toggle Theme"
-      >
-        {theme === 'dark' ? <IconSun className="w-5 h-5" /> : <IconMoon className="w-5 h-5" />}
-      </button>
+
 
       {/* Left Editor Panel */}
       <div className={`
@@ -213,7 +207,17 @@ const App: React.FC = () => {
       <div className="flex-1 bg-[#0f0f16] relative overflow-hidden flex flex-col">
 
         {/* Toolbar */}
-        <div className="absolute top-6 right-6 z-30 flex items-center space-x-4 bg-dark-800/80 backdrop-blur p-2 rounded-full border border-white/5 shadow-xl no-print">
+        <div className="absolute top-6 right-6 z-30 flex items-center space-x-2 bg-dark-800/80 backdrop-blur p-2 rounded-full border border-white/5 shadow-xl no-print">
+          <button
+            onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
+            className="w-8 h-8 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors"
+            title="Toggle Theme"
+          >
+            {theme === 'dark' ? <IconSun className="w-4 h-4" /> : <IconMoon className="w-4 h-4" />}
+          </button>
+
+          <div className="w-px h-4 bg-white/10 mx-1"></div>
+
           <button onClick={() => setScale(s => Math.max(0.5, s - 0.1))} className="w-8 h-8 flex items-center justify-center text-white hover:bg-white/10 rounded-full">-</button>
           <span className="text-xs font-mono text-gray-300 w-12 text-center">{Math.round(scale * 100)}%</span>
           <button onClick={() => setScale(s => Math.min(1.5, s + 0.1))} className="w-8 h-8 flex items-center justify-center text-white hover:bg-white/10 rounded-full">+</button>
