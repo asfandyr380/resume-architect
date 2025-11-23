@@ -65,7 +65,7 @@ const App: React.FC = () => {
     try {
       // Use html-to-image instead of html2canvas
       const imgData = await toPng(element, {
-        backgroundColor: '#13131f',
+        backgroundColor: theme === 'light' ? '#ffffff' : '#13131f',
         pixelRatio: 2 // Higher quality
       });
 
@@ -106,7 +106,7 @@ const App: React.FC = () => {
 
     try {
       const dataUrl = await toPng(element, {
-        backgroundColor: '#13131f',
+        backgroundColor: theme === 'light' ? '#ffffff' : '#13131f',
         pixelRatio: 2
       });
 
