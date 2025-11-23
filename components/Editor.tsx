@@ -149,6 +149,66 @@ const Editor: React.FC<EditorProps> = ({ data, onChange }) => {
     });
   };
 
+  const updateEducation = (id: string, field: string, value: string) => {
+    onChange({
+      ...data,
+      education: data.education.map(item => item.id === id ? { ...item, [field]: value } : item)
+    });
+  };
+
+  const addEducation = () => {
+    onChange({
+      ...data,
+      education: [
+        ...data.education,
+        {
+          id: Date.now().toString(),
+          degree: 'Degree Name',
+          institution: 'Institution Name',
+          year: '2024',
+          logo: ''
+        }
+      ]
+    });
+  };
+
+  const removeEducation = (id: string) => {
+    onChange({
+      ...data,
+      education: data.education.filter(item => item.id !== id)
+    });
+  };
+
+  const updateProject = (id: string, field: string, value: string) => {
+    onChange({
+      ...data,
+      projects: data.projects.map(item => item.id === id ? { ...item, [field]: value } : item)
+    });
+  };
+
+  const addProject = () => {
+    onChange({
+      ...data,
+      projects: [
+        ...data.projects,
+        {
+          id: Date.now().toString(),
+          title: 'New Project',
+          description: 'Project description...',
+          link: 'https://github.com/username/project',
+          image: 'https://via.placeholder.com/300'
+        }
+      ]
+    });
+  };
+
+  const removeProject = (id: string) => {
+    onChange({
+      ...data,
+      projects: data.projects.filter(item => item.id !== id)
+    });
+  };
+
   const handleAIEnhance = async (text: string, field: string, context: string) => {
     if (!text) return;
     setLoadingAI(field);
@@ -273,10 +333,10 @@ const Editor: React.FC<EditorProps> = ({ data, onChange }) => {
             </div>
             <Input label="Quote Author" value={data.personal.quoteAuthor} onChange={v => updatePersonal('quoteAuthor', v)} />
             <div className="space-y-2">
-              <Input label="Avatar URL" value={data.personal.avatar} onChange={v => updatePersonal('avatar', v)} />
+              <label className="block text-xs text-text-dim uppercase tracking-wider mb-1.5">Avatar Image</label>
               <div className="flex items-center gap-2">
-                <label className="cursor-pointer text-xs bg-white/5 hover:bg-white/10 px-3 py-2 rounded text-white flex items-center gap-2 transition-colors border border-white/5">
-                  <IconPlus className="w-3 h-3" /> Upload Image
+                <label className="cursor-pointer text-xs bg-white/5 hover:bg-white/10 px-3 py-2 rounded text-white flex items-center gap-2 transition-colors border border-white/5 w-full justify-center">
+                  <IconPlus className="w-3 h-3" /> Upload Avatar
                   <input
                     type="file"
                     accept="image/*"
@@ -293,7 +353,6 @@ const Editor: React.FC<EditorProps> = ({ data, onChange }) => {
                     className="hidden"
                   />
                 </label>
-                <span className="text-xs text-text-muted">Supports JPG, PNG</span>
               </div>
             </div>
           </div>
@@ -325,7 +384,29 @@ const Editor: React.FC<EditorProps> = ({ data, onChange }) => {
                 </div>
                 <div className="grid grid-cols-2 gap-3 mb-3">
                   <Input label="Location" value={exp.location} onChange={v => updateExperience(exp.id, 'location', v)} />
-                  <Input label="Company Logo URL" value={exp.logo || ''} onChange={v => updateExperience(exp.id, 'logo', v)} />
+                  <div className="space-y-2">
+                    <label className="block text-xs text-text-dim uppercase tracking-wider mb-1.5">Company Logo</label>
+                    <div className="flex items-center gap-2">
+                      <label className="cursor-pointer text-xs bg-white/5 hover:bg-white/10 px-3 py-2 rounded text-white flex items-center gap-2 transition-colors border border-white/5 w-full justify-center">
+                        <IconPlus className="w-3 h-3" /> Upload Logo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                updateExperience(exp.id, 'logo', reader.result as string);
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 mb-3">
                   <Input label="Start Date" value={exp.startDate} onChange={v => updateExperience(exp.id, 'startDate', v)} />
@@ -555,10 +636,113 @@ const Editor: React.FC<EditorProps> = ({ data, onChange }) => {
           </div>
         )}
 
-        {(activeTab === 'education' || activeTab === 'projects') && (
-          <div className="text-center py-10 text-text-muted">
-            <p>Editing for {activeTab} is enabled in the full version.</p>
-            <p className="text-xs mt-2">For this demo, please edit Personal, Experience, Socials, or Skills tabs.</p>
+        {activeTab === 'education' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="flex justify-between items-center">
+              <h3 className="text-white font-medium">Education</h3>
+              <button
+                onClick={addEducation}
+                className="text-xs bg-white/5 hover:bg-white/10 px-3 py-1 rounded text-white flex items-center gap-1"
+              >
+                <IconPlus className="w-3 h-3" /> Add
+              </button>
+            </div>
+
+            {data.education.map((edu) => (
+              <div key={edu.id} className="p-4 bg-dark-900 rounded-lg border border-white/5 relative group">
+                <button
+                  onClick={() => removeEducation(edu.id)}
+                  className="absolute top-2 right-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <IconTrash className="w-4 h-4" />
+                </button>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <Input label="Degree / Course" value={edu.degree} onChange={v => updateEducation(edu.id, 'degree', v)} />
+                  <Input label="Institution" value={edu.institution} onChange={v => updateEducation(edu.id, 'institution', v)} />
+                </div>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <Input label="Year" value={edu.year} onChange={v => updateEducation(edu.id, 'year', v)} />
+                  <div className="space-y-2">
+                    <label className="block text-xs text-text-dim uppercase tracking-wider mb-1.5">Institution Logo</label>
+                    <div className="flex items-center gap-2">
+                      <label className="cursor-pointer text-xs bg-white/5 hover:bg-white/10 px-3 py-2 rounded text-white flex items-center gap-2 transition-colors border border-white/5 w-full justify-center">
+                        <IconPlus className="w-3 h-3" /> Upload Logo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                updateEducation(edu.id, 'logo', reader.result as string);
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'projects' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="flex justify-between items-center">
+              <h3 className="text-white font-medium">Projects</h3>
+              <button
+                onClick={addProject}
+                className="text-xs bg-white/5 hover:bg-white/10 px-3 py-1 rounded text-white flex items-center gap-1"
+              >
+                <IconPlus className="w-3 h-3" /> Add
+              </button>
+            </div>
+
+            {data.projects.map((proj) => (
+              <div key={proj.id} className="p-4 bg-dark-900 rounded-lg border border-white/5 relative group">
+                <button
+                  onClick={() => removeProject(proj.id)}
+                  className="absolute top-2 right-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <IconTrash className="w-4 h-4" />
+                </button>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <Input label="Project Title" value={proj.title} onChange={v => updateProject(proj.id, 'title', v)} />
+                  <Input label="Link" value={proj.link || ''} onChange={v => updateProject(proj.id, 'link', v)} />
+                </div>
+                <div className="mb-3">
+                  <Input label="Description" value={proj.description} onChange={v => updateProject(proj.id, 'description', v)} multiline />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-xs text-text-dim uppercase tracking-wider mb-1.5">Project Image</label>
+                  <div className="flex items-center gap-2">
+                    <label className="cursor-pointer text-xs bg-white/5 hover:bg-white/10 px-3 py-2 rounded text-white flex items-center gap-2 transition-colors border border-white/5 w-full justify-center">
+                      <IconPlus className="w-3 h-3" /> Upload Image
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              updateProject(proj.id, 'image', reader.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

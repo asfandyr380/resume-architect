@@ -34,11 +34,11 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, scale = 1 }) => {
   return (
     <div
       id="resume-preview"
-      className="w-[210mm] min-h-[297mm] bg-dark-900 text-text-main relative overflow-hidden shadow-2xl flex origin-top"
+      className="w-[280mm] min-h-[297mm] bg-dark-900 text-text-main relative overflow-hidden shadow-2xl flex origin-top transition-transform duration-300 ease-in-out"
       style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}
     >
       {/* Left Sidebar */}
-      <aside className="w-[32%] bg-dark-900 flex flex-col pt-16 pb-8 px-8 border-r border-white/20 relative z-10">
+      <aside className="w-[25%] bg-dark-900 flex flex-col pt-16 pb-8 px-8 border-r border-white/20 relative z-10">
 
         {/* Avatar */}
         <div className="mb-8 relative group">
@@ -181,7 +181,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, scale = 1 }) => {
                     </div>
                     <div className="text-right">
                       {exp.current ? (
-                        <span className="inline-block px-3 py-1 rounded-md bg-accent-purple text-[10px] font-bold text-white uppercase tracking-wider mb-1">Present</span>
+                        <span className="inline-flex items-center justify-center px-3 h-[22px] rounded-md bg-accent-purple text-[10px] font-bold text-white uppercase tracking-wider mb-1 leading-none">Present</span>
                       ) : (
                         <p className="text-xs text-text-dim font-medium">{exp.endDate}</p>
                       )}
@@ -241,15 +241,34 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, scale = 1 }) => {
           <div className="absolute -left-[70px] top-2.5 w-3 h-3 rounded-full bg-accent-purple shadow-[0_0_10px_rgba(124,58,237,0.5)] z-20 hidden md:block"></div>
           <h2 className="text-2xl font-semibold text-white mb-8">Education</h2>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-5">
             {data.education.map(edu => (
-              <div key={edu.id} className="bg-dark-800 p-5 rounded-lg border border-white/5 hover:border-accent-purple/30 transition-colors">
-                <div className="w-10 h-10 rounded bg-dark-900 mb-4 flex items-center justify-center overflow-hidden">
-                  {edu.logo && <img src={edu.logo} className="w-full h-full object-cover" alt="Uni" />}
+              <div
+                key={edu.id}
+                className="group relative bg-dark-800/40 backdrop-blur-sm rounded-[18px] p-5 border border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(124,58,237,0.12)] hover:translate-y-[-2px]"
+              >
+                {/* Subtle glow effect on hover */}
+                <div className="absolute inset-0 rounded-[18px] bg-gradient-to-br from-accent-purple/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                <div className="relative z-10 flex flex-col gap-4">
+                  {/* Icon/Logo Container */}
+                  <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-dark-900/80 border border-white/5 flex items-center justify-center overflow-hidden group-hover:border-white/10 transition-colors">
+                    {edu.logo ? (
+                      <img src={edu.logo} className="w-full h-full object-cover" alt={edu.institution} />
+                    ) : (
+                      <div className="w-6 h-6 rounded bg-accent-purple/20 flex items-center justify-center">
+                        <span className="text-accent-purple text-xs font-bold">{edu.institution.charAt(0)}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Text Content */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-white font-semibold text-sm mb-1.5 leading-tight break-words">{edu.degree}</h3>
+                    <p className="text-xs text-text-main mb-2 leading-relaxed break-words">{edu.institution}</p>
+                    <p className="text-[11px] text-text-dim font-medium">{edu.year}</p>
+                  </div>
                 </div>
-                <h3 className="text-white font-medium text-sm mb-1">{edu.degree}</h3>
-                <p className="text-xs text-text-muted mb-3">{edu.institution}</p>
-                <p className="text-[10px] text-text-dim uppercase tracking-wider">{edu.year}</p>
               </div>
             ))}
           </div>
@@ -260,14 +279,14 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, scale = 1 }) => {
           <div className="absolute -left-[70px] top-2.5 w-3 h-3 rounded-full bg-accent-purple shadow-[0_0_10px_rgba(124,58,237,0.5)] z-20 hidden md:block"></div>
           <h2 className="text-2xl font-semibold text-white mb-8">Latest projects</h2>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
             {data.projects.map(proj => (
               <div key={proj.id} className="group bg-dark-800 rounded-xl p-4 border border-white/5 hover:bg-dark-700 transition-all">
                 <div className="h-32 w-full rounded-lg bg-dark-900 mb-4 overflow-hidden relative">
                   <img src={proj.image} alt={proj.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
                 </div>
                 <h3 className="text-white font-medium mb-1">{proj.title}</h3>
-                <p className="text-xs text-text-muted mb-3 line-clamp-2">{proj.description}</p>
+                <p className="text-xs text-text-muted mb-3 line-clamp-4">{proj.description}</p>
                 <a href={proj.link} className="flex items-center text-xs text-accent-blue hover:text-blue-300">
                   <IconLink className="w-3 h-3 mr-1" />
                   {proj.link?.replace('https://', '')}

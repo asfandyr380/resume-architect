@@ -180,7 +180,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-**Asfandyar Khan** - [@asfandyr380](https://github.com/asfandyr380)
+**Asfand Yar** - [@asfandyr380](https://github.com/asfandyr380)
 
 Project Link: [https://github.com/asfandyr380/supa-resume](https://github.com/asfandyr380/supa-resume)
 
