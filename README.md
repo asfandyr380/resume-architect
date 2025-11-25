@@ -121,11 +121,46 @@ supa-resume/
 
 ### Color Scheme
 
-The app uses a custom dark color palette defined in `index.html`:
-- **Background:** `#0A0A0F` (dark-900)
-- **Accent Purple:** `#7C3AED`
-- **Accent Blue:** `#3B82F6`
-- **Text Colors:** Various shades of gray for hierarchy
+The app uses a sophisticated dark color palette with Tailwind CSS configuration in `index.html`:
+
+**Background Colors:**
+- `#13131f` - Main background (dark-900)
+- `#1c1c2e` - Cards/Sidebar (dark-800)
+- `#27273a` - Lighter elements (dark-700)
+- `#3f3f55` - Borders (dark-600)
+
+**Accent Colors:**
+- `#7c3aed` - Purple accent
+- `#3b82f6` - Blue accent
+- `#ec4899` - Pink accent
+- Gradient: `#6366f1` → `#a855f7`
+
+**Text Colors:**
+- `#e4e4e7` - Main text
+- `#a1a1aa` - Muted text
+- `#71717a` - Dim text
+
+To customize colors, edit the Tailwind config in `index.html` (lines 55-87).
+
+### Templates
+
+The app supports multiple resume templates. Currently implemented:
+- **Modern Sidebar** (`modern-sidebar`) - Two-column layout with sidebar
+- **Classic Vertical** (`classic`) - Traditional single-column layout
+
+Add new templates in `components/templates/` and register them in `types.ts`:
+```typescript
+export type TemplateId = 'modern-sidebar' | 'classic' | 'your-template';
+```
+
+### Themes
+
+Both light and dark themes are supported. The theme toggle affects:
+- Background colors
+- Text contrast
+- PDF/PNG export backgrounds
+
+Customize theme colors in template components (`ModernSidebar.tsx`, `ClassicVertical.tsx`).
 
 ### Skill Categories
 
@@ -134,14 +169,61 @@ Add or modify skill categories in `constants.ts`:
 export const SKILL_CATEGORIES = [
   {
     name: "Your Category",
-    color: "text-your-color",
-    borderColor: "border-your-color/50",
-    shadowColor: "rgba(r,g,b,0.15)",
-    icon: "icon-name",
+    color: "text-your-color",           // Tailwind text color
+    borderColor: "border-your-color/50", // Border with opacity
+    shadowColor: "rgba(r,g,b,0.15)",    // Shadow color
+    icon: "icon-name",                   // Icon from Icons.tsx
     suggestedSkills: ["Skill 1", "Skill 2", ...]
   }
 ];
 ```
+
+**Available Categories:**
+- Design (purple) - Design tools and skills
+- Development (blue) - Programming languages and frameworks
+- Marketing (pink) - Marketing and SEO skills
+- Business (emerald) - Management and business skills
+- Data Science (yellow) - ML, AI, and data analysis
+- DevOps (orange) - Infrastructure and deployment
+
+### Languages
+
+Customize available languages in `constants.ts`:
+```typescript
+export const LANGUAGES_LIST = [
+  { name: "Language Name", code: "ISO-CODE" }
+];
+
+export const LANGUAGE_LEVELS = [
+  "Native", "Fluent", "Proficient", "Advanced",
+  "Intermediate", "Conversational", "Elementary", "Beginner"
+];
+```
+
+### Firebase Analytics
+
+Configure Firebase Analytics for tracking user interactions:
+
+1. **Set up Firebase project** (see [FIREBASE_SETUP.md](FIREBASE_SETUP.md))
+2. **Add credentials to `.env`:**
+   ```env
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_domain
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_bucket
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+   ```
+
+**Tracked Events:**
+- Template selection
+- Theme toggles
+- Editor tab changes
+- Download actions (PDF/PNG)
+- AI feature usage
+
+Customize analytics events in `services/analytics.ts`.
 
 ---
 
@@ -171,18 +253,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Google Gemini AI** for powering the AI features
-- **Tailwind CSS** for the utility-first styling approach
-- **React** and **Vite** for the amazing developer experience
-- All contributors who help improve this project
-
 ---
 
 ## 📧 Contact
 
 **Asfand Yar** - [@asfandyr380](https://github.com/asfandyr380)
 
-Project Link: [https://github.com/asfandyr380/supa-resume](https://github.com/asfandyr380/supa-resume)
+Project Link: [https://github.com/asfandyr380/resume-architech](https://github.com/asfandyr380/resume-architech)
 
 ---
 
