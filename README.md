@@ -1,4 +1,4 @@
-# Supa Resume 🚀
+# Resume Architect 🚀
 
 <div align="center">
 
@@ -57,8 +57,8 @@ Before you begin, ensure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/asfandyr380/supa-resume.git
-   cd supa-resume
+   git clone https://github.com/asfandyr380/resume-architect.git
+   cd resume-architect
    ```
 
 2. **Install dependencies**
@@ -100,7 +100,7 @@ Before you begin, ensure you have the following installed:
 ## 📁 Project Structure
 
 ```
-supa-resume/
+resume-architect/
 ├── components/
 │   ├── Editor.tsx          # Main editor component with tab navigation
 │   ├── ResumePreview.tsx   # Live resume preview with A4 layout
