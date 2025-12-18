@@ -9,8 +9,8 @@ interface TemplateSelectorProps {
 const templates: { id: TemplateId; name: string; description: string }[] = [
     { id: 'modern-sidebar', name: 'Modern Sidebar', description: 'Two-column layout with sidebar emphasis' },
     { id: 'classic', name: 'Classic Vertical', description: 'Strong section hierarchy, centered header' },
-    { id: 'minimal', name: 'Minimalist', description: 'Clean, lots of whitespace (Coming Soon)' },
-    { id: 'executive', name: 'Executive', description: 'Bold headers, clean grids (Coming Soon)' },
+    { id: 'minimal', name: 'Minimalist', description: 'Clean, lots of whitespace' },
+    { id: 'executive', name: 'Executive', description: 'Bold headers, clean grids' },
 ];
 
 const TemplateSelector: React.FC<TemplateSelectorProps> = ({ selectedTemplate, onSelectTemplate }) => {

@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Editor from './components/Editor';
 import ModernSidebar from './components/templates/ModernSidebar';
 import ClassicVertical from './components/templates/ClassicVertical';
+import Minimalist from './components/templates/Minimalist';
+import Executive from './components/templates/Executive';
 import { ResumeData, TemplateId, Theme } from './types';
 import { INITIAL_RESUME_DATA as INITIAL_DATA } from './constants';
 import { IconDownload, IconSun, IconMoon } from './components/Icons';
@@ -254,8 +256,10 @@ const App: React.FC = () => {
           <div className="origin-top transition-transform duration-300 ease-in-out">
             {selectedTemplate === 'modern-sidebar' && <ModernSidebar data={resumeData} scale={scale} theme={theme} />}
             {selectedTemplate === 'classic' && <ClassicVertical data={resumeData} scale={scale} theme={theme} />}
+            {selectedTemplate === 'minimal' && <Minimalist data={resumeData} scale={scale} theme={theme} />}
+            {selectedTemplate === 'executive' && <Executive data={resumeData} scale={scale} theme={theme} />}
             {/* Fallback for other templates not yet implemented */}
-            {(selectedTemplate !== 'modern-sidebar' && selectedTemplate !== 'classic') && (
+            {(selectedTemplate !== 'modern-sidebar' && selectedTemplate !== 'classic' && selectedTemplate !== 'minimal' && selectedTemplate !== 'executive') && (
               <div className="text-white text-center mt-20">
                 <p className="text-xl font-bold mb-2">Coming Soon</p>
                 <p className="text-text-muted">This template is under construction.</p>
